@@ -31,7 +31,4 @@ jobs:
       - name: Build with Maven
         run: mvn -B verify --file pom.xml
 
-      # Optional but recommended – for Dependabot insights
-      - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@v1
 
