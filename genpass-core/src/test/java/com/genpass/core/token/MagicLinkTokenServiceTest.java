@@ -35,12 +35,14 @@ class MagicLinkTokenServiceTest {
     void shouldReturnEmptyOptionalWhenTokenIsModified() {
         String token = service.createToken("user1", Duration.ofMinutes(5));
 
-        // Modify token
-        String tampered = token.replace("user1", "hacker");
+        char lastChar = token.charAt(token.length() - 1);
+        char tamperedChar = lastChar == 'A' ? 'B' : 'A';
+
+        String tampered = token.substring(0, token.length() - 1) + tamperedChar;
 
         Optional<String> result = service.verifyToken(tampered);
 
-        assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty(), "Tampered token must not validate");
     }
 
     @Test
@@ -48,10 +50,8 @@ class MagicLinkTokenServiceTest {
         MagicLinkTokenService shortLived =
                 new MagicLinkTokenService("secret".getBytes(), new TokenGenerator.Default(), 16);
 
-        // Token valid for 1 millisecond
         String token = shortLived.createToken("expired-user", Duration.ofMillis(1));
 
-        // Wait so token is expired
         Thread.sleep(5);
 
         Optional<String> result = shortLived.verifyToken(token);
