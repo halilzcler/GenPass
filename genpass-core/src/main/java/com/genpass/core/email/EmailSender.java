@@ -29,6 +29,7 @@ public interface EmailSender {
         @Override
         public void send(EmailMessage message) {
             Objects.requireNonNull(message, "message");
+
             // Silently simulate sending by printing. Do not use in production.
             System.out.println("=== EmailSender.NoOp ===");
             System.out.println("From: " + message.getFrom());
