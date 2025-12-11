@@ -36,7 +36,6 @@ public interface OtpGenerator {
         @Override
         public String generateOtp() {
             int value = RANDOM.nextInt(UPPER_BOUND); // 0 .. 999_999
-            // zero-pad to fixed length (6)
             return String.format("%0" + DIGITS + "d", value);
         }
 
